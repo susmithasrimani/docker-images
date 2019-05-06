@@ -1,17 +1,9 @@
-FROM openjdk:8u131-jdk
+FROM mcr.microsoft.com/mssql-tools
 
+# Install openjdk-8
 RUN apt-get update \
-    && apt-get install -y apt-transport-https
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get install -y locales
-RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-RUN locale-gen
+    && apt-get install -y openjdk-8-jdk
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
-# Install sqlcmd
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-RUN curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | tee /etc/apt/sources.list.d/msprod.list
-
-ENV ACCEPT_EULA=Y
-RUN apt-get update \
-    && apt-get install -y msodbcsql \
-    && apt-get install -y mssql-tools
+# Install dev tools
+RUN apt-get install -y zip
